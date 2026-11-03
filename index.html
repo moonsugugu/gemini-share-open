@@ -59,6 +59,7 @@
   .bm { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 14px; background: var(--key);
     color: var(--key-ink); font-weight: 800; font-size: 1.15rem; text-decoration: none; cursor: grab;
     box-shadow: 0 4px 0 #d9a21a; user-select: none; -webkit-user-drag: element; touch-action: none; }
+  .bm { flex-direction: column; gap: 2px; line-height: 1.25; text-align: center; }
   .bm:active { cursor: grabbing; transform: translateY(2px); box-shadow: 0 2px 0 #d9a21a; }
   .bm:focus-visible, button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   .hint { min-height: 1.4em; font-size: .9rem; color: var(--accent); text-align: center; }
@@ -112,7 +113,7 @@
       </div>
       <div class="drag-area">
         <span class="arrow">↑ 위 북마크 줄로 끌어 올리기</span>
-        <a class="bm" id="bm" href="#" draggable="true" title="북마크바로 끌어다 놓으세요">⭐ 제미나이 공유 열기</a>
+        <a class="bm" id="bm" href="#" draggable="true" title="북마크바로 끌어다 놓으세요"><span>제미나이 캔바스 앱</span> <span>공유 오류 해결</span></a>
         <div class="hint" id="hint" role="status" aria-live="polite"></div>
       </div>
     </div>
@@ -122,7 +123,7 @@
     <div class="num">3</div>
     <h2>하얀 화면에서 북마크를 누르세요</h2>
     <div class="body">
-      <p>공유 링크를 열었는데 하얗게만 나오면, 북마크바의 <b>⭐ 제미나이 공유 열기</b>를 한 번 누르세요. 2~10초쯤 지나면 앱이 나타나요. 큰 앱은 조금 더 걸려요.</p>
+      <p>공유 링크를 열었는데 하얗게만 나오면, 북마크바의 <b>제미나이 캔바스 앱 공유 오류 해결</b>을 한 번 누르세요. 2~10초쯤 지나면 앱이 나타나요. 큰 앱은 조금 더 걸려요.</p>
       <p>다른 사이트로 옮기는 게 아니라, 원래 제미나이 공유 페이지 안에서 그대로 열려요.</p>
     </div>
   </section>
@@ -133,7 +134,7 @@
       <ol>
         <li>아래 <b>코드 복사</b>를 누르세요.</li>
         <li>북마크바 빈 곳에서 오른쪽 클릭 → <b>페이지 추가</b>(엣지는 <b>즐겨찾기 추가</b>)를 고르세요.</li>
-        <li>이름에 <b>제미나이 공유 열기</b>, URL 칸에 복사한 코드를 붙여넣고 저장하세요.</li>
+        <li>이름에 <b>제미나이 캔바스 앱 공유 오류 해결</b>, URL 칸에 복사한 코드를 붙여넣고 저장하세요.</li>
       </ol>
       <div class="copy-row"><button class="copy" id="copy" type="button">코드 복사</button><span class="hint" id="copyHint" role="status" aria-live="polite"></span></div>
       <label for="code" class="made-by">복사가 안 되면 아래 칸을 전부 선택해서 복사하세요.</label>
@@ -169,8 +170,8 @@
   });
   bm.addEventListener('dragstart', () => { hint.textContent = '좋아요! 위쪽 북마크 줄에 놓아 주세요.'; });
   bm.addEventListener('dragend', () => {
-    hint.textContent = '북마크바에 ⭐ 제미나이 공유 열기가 생겼으면 준비 끝이에요.';
-    slot.textContent = '⭐ 제미나이 공유 열기';
+    hint.textContent = '북마크바에 제미나이 캔바스 앱 공유 오류 해결이 생겼으면 준비 끝이에요.';
+    slot.textContent = '제미나이 캔바스 앱 공유 오류 해결';
     slot.classList.add('filled');
   });
 
