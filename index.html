@@ -53,6 +53,11 @@
   @keyframes pulse { 50% { opacity: .3; } }
   .alert p { margin: 0; }
   .alert b { color: var(--signal); }
+  .hazard.ok { background: repeating-linear-gradient(-45deg, var(--cyan) 0 14px, #111 14px 28px); }
+  .alert b.okb { color: var(--cyan); }
+  details.legacy > summary { color: var(--muted); }
+  .legacy-in { display: flex; flex-direction: column; gap: 14px; margin-top: 14px; }
+  .legacy-in .step, .legacy-in details { background: var(--panel-2); }
 
   /* 단계 모듈 */
   .step { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px 20px;
@@ -132,12 +137,17 @@
   </header>
 
   <section class="alert">
-    <div class="hazard"></div>
+    <div class="hazard ok"></div>
     <div class="in">
-      <div class="status"><span class="led err">공유 링크: 하얀 화면</span><span class="led err">원인: 구글 쪽 오류 (2026-11-02 업데이트 뒤)</span><span class="led ok">내 앱·계정 설정: 정상</span></div>
-      <p><b>제미나이 캔바스 공유 링크가 하얀 화면으로만 뜨나요?</b> 앱이나 계정 설정 문제가 아니에요. 아래 노란 버튼을 북마크바에 한 번만 넣어 두면, 백지 화면에서 눌러서 바로 열 수 있어요.</p>
+      <div class="status"><span class="led ok">공유 링크: 정상</span><span class="led ok">구글 패치로 해결 (2026-11-03 오후)</span><span class="led ok">내 앱·계정 설정: 정상</span></div>
+      <p><b class="okb">해결됐어요. 이제 북마크 없이 공유 링크가 그대로 열려요.</b> 11월 2일 제미나이 업데이트 뒤 생겼던 구글 쪽 오류를 구글이 11월 3일 오후에 고쳤어요.</p>
+      <p>아직 하얀 화면이 보이면 예전 화면이 브라우저에 남아 있는 거예요. <kbd>Ctrl</kbd> + <kbd>F5</kbd> 로 새로고침 한 번 해 주세요. 맥은 <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> 예요.</p>
     </div>
   </section>
+
+  <details class="legacy">
+  <summary>오류가 다시 생기면 쓰는 예전 방법 (북마크 버튼)</summary>
+  <div class="legacy-in">
 
   <section class="step">
     <div class="step-head"><span class="code">STEP 1 / 3</span><h2>북마크바를 켜 주세요</h2></div>
@@ -184,13 +194,16 @@
     </div>
   </details>
 
+  </div>
+  </details>
+
   <section class="faq">
     <div><h3>휴대폰에서도 되나요?</h3><p>아니요. PC의 크롬, 엣지, 웨일에서 써 주세요.</p></div>
     <div><h3>이 버튼이 무슨 일을 하나요?</h3><p>제미나이 화면이 받아 온 앱 데이터를 엉뚱한 이름으로 찾고 있어서 하얗게 나와요. 버튼은 그 이름만 맞춰 줘요. 어떤 정보도 다른 곳으로 보내지 않아요.</p></div>
-    <div><h3>구글이 고치면요?</h3><p>그때는 버튼 없이도 그냥 열려요. 눌러도 아무 일이 생기지 않으니 지워도 되고 그냥 둬도 돼요.</p></div>
+    <div><h3>이미 만든 북마크는요?</h3><p>이제는 필요 없어요. 눌러도 화면이 한 번 깜빡이고 그대로 열리니, 지워도 되고 그냥 둬도 돼요.</p></div>
   </section>
 
-  <footer>made by 문수네집 · 2026-11-03 기준으로 확인한 방법이에요.</footer>
+  <footer>made by 문수네집 · 2026-11-03 오후, 구글 패치로 해결된 것을 확인했어요.</footer>
 </main>
 
 <script>
