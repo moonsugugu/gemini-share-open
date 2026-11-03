@@ -3,125 +3,167 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>제미나이 공유 열기 · 문수네집</title>
-<meta name="description" content="제미나이 캔버스 공유 링크가 하얀 화면으로만 뜰 때, 북마크 버튼 하나로 여는 방법">
+<title>제미나이 캔바스 앱 공유 오류 해결 · 문수네집</title>
+<meta name="description" content="제미나이 캔바스 공유 링크가 하얀 화면으로만 뜰 때, 북마크 버튼 하나로 여는 방법">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  /* 한 장짜리 안내: 위에서 아래로 1→2→3 순서대로 따라 하는 구성 */
+  /* 산업용 로봇 제어판: 설계도 모눈 바탕 위에 모듈 패널 3개를 순서대로 쌓는 구성 */
   :root {
-    --bg: #f3f5f9; --card: #ffffff; --ink: #1b2433; --muted: #5b6577; --line: #dde2ec;
-    --key: #ffc83d; --key-ink: #3a2a00; --accent: #2f5bd8; --soft: #eaf0ff;
-    --font: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-    --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #11151d; --card: #1a202b; --ink: #e9edf5; --muted: #a3acbd; --line: #2c3442;
-      --key: #ffc83d; --key-ink: #3a2a00; --accent: #8fb0ff; --soft: #1f2a44; color-scheme: dark; }
+    --bg: #0d1115; --grid: rgba(62, 230, 208, .06); --panel: #151b21; --panel-2: #1c242c; --line: #2b3742;
+    --ink: #e7edf3; --muted: #93a2b0; --signal: #ffc400; --signal-ink: #1a1400; --cyan: #3ee6d0; --alert: #ff5040;
+    --sans: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+    color-scheme: dark;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 var(--font); }
-  .wrap { max-width: 720px; margin: 0 auto; padding-block: 28px 56px;
+  html { background: var(--bg); }
+  body { margin: 0; color: var(--ink); font: 16px/1.7 var(--sans);
+    background-color: var(--bg);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px; }
+  .wrap { max-width: 740px; margin: 0 auto; padding-block: 28px 64px;
     padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
-    display: flex; flex-direction: column; gap: 20px; }
-  header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
-  header h1 { margin: 0 8px 0 0; font-size: 1.6rem; line-height: 1.25; text-wrap: balance; }
-  .made-by { color: var(--muted); font-size: .85rem; }
-  .brand-btn { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border: 1px solid var(--line);
-    border-radius: 999px; color: var(--ink); text-decoration: none; font-size: .85rem; background: var(--card); }
-  .brand-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .notice { background: var(--soft); border-radius: 12px; padding: 14px 16px; }
-  .notice b { color: var(--accent); }
-  .notice p { margin: 0; }
-  .step { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px;
-    display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 4px 14px; }
-  .num { grid-row: span 2; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--bg);
-    display: grid; place-items: center; font-weight: 800; font-size: 1.1rem; }
-  .step h2 { margin: 6px 0 0; font-size: 1.15rem; line-height: 1.35; }
+    display: flex; flex-direction: column; gap: 18px; }
+
+  /* 이름판 */
+  .plate { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 18px;
+    display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 6px 16px; align-items: center; }
+  .plate::before, .plate::after { content: ""; position: absolute; top: 10px; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--line); box-shadow: 0 0 0 2px var(--panel-2); }
+  .plate::before { left: 10px; } .plate::after { right: 10px; }
+  .arm { grid-row: span 2; width: 64px; height: 64px; }
+  .plate h1 { margin: 0; font-size: clamp(1.35rem, 4.6vw, 1.75rem); line-height: 1.3; font-weight: 700; text-wrap: balance; letter-spacing: -0.01em; }
+  .brand { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+  .made-by { font: 500 .75rem var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+  .brand-btn { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border: 1px solid var(--line);
+    border-radius: 6px; color: var(--ink); text-decoration: none; font-size: .82rem; background: var(--panel-2); }
+  .brand-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* 경고 패널 */
+  .alert { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .hazard { height: 10px; background: repeating-linear-gradient(-45deg, var(--signal) 0 14px, #111 14px 28px); }
+  .alert .in { padding: 16px 20px; display: flex; flex-direction: column; gap: 8px; }
+  .status { display: flex; flex-wrap: wrap; gap: 8px 16px; font: 600 .78rem var(--mono); letter-spacing: .04em; color: var(--muted); }
+  .led { display: inline-flex; align-items: center; gap: 7px; }
+  .led::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--alert); box-shadow: 0 0 8px var(--alert); }
+  .led.ok::before { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .led.err::before { animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  .alert p { margin: 0; }
+  .alert b { color: var(--signal); }
+
+  /* 단계 모듈 */
+  .step { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px 20px;
+    display: flex; flex-direction: column; gap: 12px; }
+  .step-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .code { font: 600 .78rem var(--mono); color: var(--cyan); letter-spacing: .08em; padding: 2px 8px; border: 1px solid rgba(62,230,208,.35); border-radius: 4px; }
+  .step h2 { margin: 0; font-size: 1.15rem; line-height: 1.4; }
   .step .body { display: flex; flex-direction: column; gap: 12px; color: var(--muted); }
   .step .body p { margin: 0; }
-  kbd { font: 600 .85rem var(--mono); background: var(--bg); border: 1px solid var(--line); border-bottom-width: 2px;
-    border-radius: 6px; padding: 1px 6px; color: var(--ink); white-space: nowrap; }
+  .step .body b { color: var(--ink); }
+  kbd { font: 600 .82rem var(--mono); background: var(--panel-2); border: 1px solid var(--line); border-bottom-width: 3px;
+    border-radius: 6px; padding: 1px 7px; color: var(--ink); white-space: nowrap; }
 
-  /* 끌어다 놓는 그림: 브라우저 위쪽 모양 */
-  .browser { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg); }
-  .browser .top { display: flex; align-items: center; gap: 6px; padding: 8px 10px; }
+  /* 브라우저 모니터 */
+  .monitor { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #0a0e12; }
+  .monitor .top { display: flex; align-items: center; gap: 6px; padding: 8px 10px; }
   .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
-  .addr { flex: 1; min-width: 0; margin-left: 6px; background: var(--card); border-radius: 999px; padding: 3px 12px;
-    font: .78rem var(--mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 10px 8px; border-top: 1px solid var(--line);
-    font-size: .78rem; color: var(--muted); }
-  .chip { padding: 2px 8px; border-radius: 6px; background: var(--card); white-space: nowrap; }
-  .slot { padding: 2px 8px; border-radius: 6px; border: 1.5px dashed var(--accent); color: var(--accent); white-space: nowrap;
-    animation: blink 1.6s ease-in-out infinite; }
-  .slot.filled { border: 0; background: var(--key); color: var(--key-ink); font-weight: 700; animation: none; }
-  @keyframes blink { 50% { opacity: .35; } }
-  .drag-area { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 18px 8px 6px; }
-  .arrow { color: var(--accent); font-weight: 700; font-size: .9rem; }
-  .bm { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 14px; background: var(--key);
-    color: var(--key-ink); font-weight: 800; font-size: 1.15rem; text-decoration: none; cursor: grab;
-    box-shadow: 0 4px 0 #d9a21a; user-select: none; -webkit-user-drag: element; touch-action: none; }
-  .bm { flex-direction: column; gap: 2px; line-height: 1.25; text-align: center; }
-  .bm:active { cursor: grabbing; transform: translateY(2px); box-shadow: 0 2px 0 #d9a21a; }
-  .bm:focus-visible, button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .hint { min-height: 1.4em; font-size: .9rem; color: var(--accent); text-align: center; }
+  .addr { flex: 1; min-width: 0; margin-left: 6px; background: var(--panel-2); border-radius: 6px; padding: 3px 10px;
+    font: .76rem var(--mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 10px 9px; border-top: 1px solid var(--line);
+    font-size: .76rem; color: var(--muted); }
+  .chip { padding: 2px 8px; border-radius: 5px; background: var(--panel-2); white-space: nowrap; }
+  .slot { padding: 2px 8px; border-radius: 5px; border: 1.5px dashed var(--cyan); color: var(--cyan); white-space: nowrap;
+    animation: pulse 1.6s ease-in-out infinite; }
+  .slot.filled { border: 0; background: var(--signal); color: var(--signal-ink); font-weight: 700; animation: none; }
 
-  details { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  /* 큰 버튼 */
+  .console { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 14px 8px 4px; }
+  .guide { font: 600 .8rem var(--mono); color: var(--cyan); letter-spacing: .06em; }
+  .bezel { padding: 8px; border-radius: 22px; background: repeating-linear-gradient(-45deg, var(--signal) 0 10px, #111 10px 20px); }
+  .bm { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 30px; border-radius: 15px;
+    background: var(--signal); color: var(--signal-ink); font-weight: 700; font-size: 1.15rem; line-height: 1.3; text-align: center;
+    text-decoration: none; cursor: grab; box-shadow: inset 0 -5px 0 rgba(0,0,0,.25), 0 6px 0 #7a5d00;
+    user-select: none; -webkit-user-drag: element; touch-action: none; }
+  .bm:active { cursor: grabbing; transform: translateY(3px); box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), 0 3px 0 #7a5d00; }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--cyan); outline-offset: 3px; }
+  .hint { min-height: 1.5em; font-size: .9rem; color: var(--cyan); text-align: center; }
+
+  details { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 20px; }
   summary { cursor: pointer; font-weight: 700; }
   details .inner { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; color: var(--muted); }
   details ol { margin: 0; padding-left: 1.3em; }
+  details b { color: var(--ink); }
   .copy-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  button.copy { font: 700 .95rem var(--font); padding: 8px 14px; border-radius: 10px; border: 1px solid var(--accent);
-    background: var(--card); color: var(--accent); cursor: pointer; }
-  textarea { width: 100%; min-height: 84px; resize: vertical; font: .72rem/1.4 var(--mono); color: var(--ink);
-    background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
-  .faq { display: flex; flex-direction: column; gap: 10px; }
-  .faq h3 { margin: 0; font-size: 1rem; }
-  .faq p { margin: 2px 0 0; color: var(--muted); }
-  footer { color: var(--muted); font-size: .8rem; text-align: center; }
-  @media (prefers-reduced-motion: reduce) { .slot { animation: none; } }
+  button.copy { font: 600 .9rem var(--sans); padding: 7px 14px; border-radius: 8px; border: 1px solid var(--cyan);
+    background: transparent; color: var(--cyan); cursor: pointer; }
+  .small { font: 500 .78rem var(--mono); color: var(--muted); }
+  textarea { width: 100%; min-height: 84px; resize: vertical; font: .72rem/1.45 var(--mono); color: var(--ink);
+    background: #0a0e12; border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
+
+  .faq { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .faq div { border-top: 2px solid var(--line); padding-top: 10px; min-width: 0; }
+  .faq h3 { margin: 0; font-size: .98rem; }
+  .faq p { margin: 4px 0 0; color: var(--muted); font-size: .92rem; }
+  footer { font: 500 .75rem var(--mono); color: var(--muted); text-align: center; letter-spacing: .04em; }
+  @media (prefers-reduced-motion: reduce) { .slot, .led.err::before { animation: none; } }
 </style>
 </head>
 <body>
 <main class="wrap">
-  <header>
-    <h1>제미나이 공유 열기</h1>
-    <span class="made-by">made by</span>
-    <a class="brand-btn" href="https://moonsunezip.com" target="_blank" rel="noopener">🏠 문수네집</a>
-    <a class="brand-btn" href="https://www.instagram.com/moonsune.zip/" target="_blank" rel="noopener">📸 Instagram</a>
-    <a class="brand-btn" href="https://moonsunezip.com" target="_blank" rel="noopener">✨ moonsune.zip</a>
+  <header class="plate">
+    <svg class="arm" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <rect x="10" y="52" width="26" height="6" rx="2" fill="#2b3742"/>
+      <circle cx="23" cy="47" r="5" fill="#1c242c" stroke="#3ee6d0" stroke-width="2"/>
+      <path d="M23 47 L32 24" stroke="#ffc400" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="32" cy="24" r="4.5" fill="#1c242c" stroke="#3ee6d0" stroke-width="2"/>
+      <path d="M32 24 L50 18" stroke="#ffc400" stroke-width="5" stroke-linecap="round"/>
+      <path d="M50 18 L56 12 M50 18 L57 22" stroke="#e7edf3" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <h1>제미나이 캔바스 앱 공유 오류 해결</h1>
+    <div class="brand">
+      <span class="made-by">made by</span>
+      <a class="brand-btn" href="https://moonsunezip.com" target="_blank" rel="noopener">🏠 문수네집</a>
+      <a class="brand-btn" href="https://www.instagram.com/moonsune.zip/" target="_blank" rel="noopener">📸 Instagram</a>
+      <a class="brand-btn" href="https://moonsunezip.com" target="_blank" rel="noopener">✨ moonsune.zip</a>
+    </div>
   </header>
 
-  <div class="notice">
-    <p><b>제미나이 캔버스 공유 링크가 하얀 화면으로만 뜨나요?</b> 2026년 11월 2일 제미나이 업데이트 뒤로 생긴 구글 쪽 오류예요. 앱이나 계정 설정 문제가 아니에요. 아래 노란 버튼을 북마크바에 한 번만 넣어 두면, 백지 화면에서 눌러서 바로 열 수 있어요.</p>
-  </div>
+  <section class="alert">
+    <div class="hazard"></div>
+    <div class="in">
+      <div class="status"><span class="led err">공유 링크: 하얀 화면</span><span class="led err">원인: 구글 쪽 오류 (2026-11-02 업데이트 뒤)</span><span class="led ok">내 앱·계정 설정: 정상</span></div>
+      <p><b>제미나이 캔바스 공유 링크가 하얀 화면으로만 뜨나요?</b> 앱이나 계정 설정 문제가 아니에요. 아래 노란 버튼을 북마크바에 한 번만 넣어 두면, 백지 화면에서 눌러서 바로 열 수 있어요.</p>
+    </div>
+  </section>
 
   <section class="step">
-    <div class="num">1</div>
-    <h2>북마크바를 켜 주세요</h2>
+    <div class="step-head"><span class="code">STEP 1 / 3</span><h2>북마크바를 켜 주세요</h2></div>
     <div class="body">
       <p>주소창 바로 아래에 북마크 줄이 안 보이면 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> 를 누르세요. 맥은 <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> 예요.</p>
     </div>
   </section>
 
   <section class="step">
-    <div class="num">2</div>
-    <h2>노란 버튼을 북마크바로 끌어다 놓으세요</h2>
+    <div class="step-head"><span class="code">STEP 2 / 3</span><h2>노란 버튼을 북마크바로 끌어다 놓으세요</h2></div>
     <div class="body">
       <p>버튼을 마우스로 꾹 누른 채 위쪽 북마크 줄까지 끌고 가서 놓으면 끝이에요. 처음 한 번만 하면 돼요.</p>
-      <div class="browser" aria-hidden="true">
+      <div class="monitor" aria-hidden="true">
         <div class="top"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">moonsugugu.github.io/gemini-share-open</span></div>
         <div class="bar"><span class="chip">📁 업무</span><span class="chip">나이스</span><span class="slot" id="slot">여기에 놓기</span></div>
       </div>
-      <div class="drag-area">
-        <span class="arrow">↑ 위 북마크 줄로 끌어 올리기</span>
-        <a class="bm" id="bm" href="#" draggable="true" title="북마크바로 끌어다 놓으세요"><span>제미나이 캔바스 앱</span> <span>공유 오류 해결</span></a>
+      <div class="console">
+        <span class="guide">↑ 위 북마크 줄로 끌어 올리기</span>
+        <div class="bezel"><a class="bm" id="bm" href="#" draggable="true" title="북마크바로 끌어다 놓으세요"><span>제미나이 캔바스 앱</span> <span>공유 오류 해결</span></a></div>
         <div class="hint" id="hint" role="status" aria-live="polite"></div>
       </div>
     </div>
   </section>
 
   <section class="step">
-    <div class="num">3</div>
-    <h2>하얀 화면에서 북마크를 누르세요</h2>
+    <div class="step-head"><span class="code">STEP 3 / 3</span><h2>하얀 화면에서 북마크를 누르세요</h2></div>
     <div class="body">
       <p>공유 링크를 열었는데 하얗게만 나오면, 북마크바의 <b>제미나이 캔바스 앱 공유 오류 해결</b>을 한 번 누르세요. 2~10초쯤 지나면 앱이 나타나요. 큰 앱은 조금 더 걸려요.</p>
       <p>다른 사이트로 옮기는 게 아니라, 원래 제미나이 공유 페이지 안에서 그대로 열려요.</p>
@@ -137,7 +179,7 @@
         <li>이름에 <b>제미나이 캔바스 앱 공유 오류 해결</b>, URL 칸에 복사한 코드를 붙여넣고 저장하세요.</li>
       </ol>
       <div class="copy-row"><button class="copy" id="copy" type="button">코드 복사</button><span class="hint" id="copyHint" role="status" aria-live="polite"></span></div>
-      <label for="code" class="made-by">복사가 안 되면 아래 칸을 전부 선택해서 복사하세요.</label>
+      <label for="code" class="small">복사가 안 되면 아래 칸을 전부 선택해서 복사하세요.</label>
       <textarea id="code" readonly></textarea>
     </div>
   </details>
@@ -152,7 +194,7 @@
 </main>
 
 <script>
-  // 제미나이 공유 페이지에서 실행되는 북마크 코드 (2026-11-03 실제 공유 링크로 확인)
+  // 제미나이 공유 페이지에서 실행되는 북마크 코드 (2026-11-03 실제 크롬에서 확인)
   const BM = String.raw`javascript:(async()=>{const G=window.default_BardChatUi;if(!G||!G.iu){alert('제미나이 공유 페이지에서 눌러주세요');return}const o=G.iu;G.iu=function(p,...r){if(typeof p==='function'&&String(p).includes('"conversation"')){return o.call(this,function(a){if(a&&!('conversation'in a)){for(const k in a){const v=a[k];if(v&&typeof v==='object'&&Array.isArray(v.Pb)){a.conversation=v;break}}}return p.apply(this,arguments)},...r)}return o.call(this,p,...r)};const u=location.pathname+location.search;history.pushState({},'','/app');dispatchEvent(new PopStateEvent('popstate'));await new Promise(r=>setTimeout(r,1500));history.pushState({},'',u);dispatchEvent(new PopStateEvent('popstate'))})();`;
 
   const bm = document.getElementById('bm');
